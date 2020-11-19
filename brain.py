@@ -6,34 +6,34 @@ class Brain:
     def __init__(self, game):
         self.settings = game.settings
         self.fitness_list = []
-        self.dot_group = game.dot_group
 
-    def run_brain(self):
-        self.fitness_calc()
-        self.champion = self.find_champ()
-
-    def find_champ(self):
+    def find_champ(self, dead_list):
+        self.fitness_calc(dead_list)
         max = 0
-        for i in range(len(self.fitness_list)):
-            if max < self.fitness_list[i]:
-                max = self.fitness_list[i]
+        for i in range(len(dead_list)):
+            if max < dead_list[i].fitness:
+                max = dead_list[i].fitness
                 index = i
-        champ = self.dot_group[index]
+        print(index)
+        champ = dead_list[index]
+        dead_list.clear()
         return champ
 
-    def fitness_calc(self):
-        for dot in self.dot_group:
+    def fitness_calc(self, dead_list):
+        for dot in dead_list:
             if dot.reached_goal == True:
                 fitness = 1/(dot.time_alive**2)
             else:
                 dist = self.dist_to_goal(dot)
                 fitness = 1/(dist**2) # obs: fitness udregnet fra timestep ikke sammenlignelig med fitness udregnet fra afstand til mål
-            #dot.fitness = fitness
-            self.fitness_list.append(fitness)
 
-    def mutate(self, champ):
-        for i in range(self.settings.mutate_factor):
-            champ.vect_list[random.randint(0,len(champ.vect_list))] = random.choice(self.settings.move_list)
+            dot.fitness = fitness
+
+    def mutate(self, list):
+        list2 = list.copy()
+        for _ in range(self.settings.mutate_factor):
+            list2[random.randint(0,len(list))-1] = random.choice(self.settings.move_list)
+        return list2
 
     def dist_to_goal(self, dot):
         distance = int(math.sqrt((dot.x_dot - self.settings.goal_pos_x)**2

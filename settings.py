@@ -21,8 +21,10 @@ class Settings:
         self.dot_start_y = int(self.screen_height - 50)
         self.dot_radius = 5
         self.dot_color = WHITE
-        self.list_length = 500
+        self.list_length = 1000
         self.dot_amount = 100
+        self.all_dead = False
+        self.gen = 1
         # Dot move list
         # Vector move
         self.moved_up_left = (-1, 1)
@@ -74,4 +76,4 @@ class Settings:
         self.goal_radius = self.dot_radius * 2
 
         # Brain settings
-        self.mutate_factor = 200
+        self.mutate_factor = int(self.list_length * 0.10)

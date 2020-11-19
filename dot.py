@@ -4,11 +4,13 @@ import numpy as np
 from pygame.sprite import Sprite
 
 class Dot(Sprite):
-    def __init__(self, game):
+    def __init__(self, game, list):
         super().__init__()
         self.settings = game.settings
         self.screen = game.screen
-        self.rand_vect_list()
+        self.vect_list = list
+        if self.settings.gen == 1:
+            self.rand_vect_list()
         self.x_dot = self.settings.dot_start_x #self.vect_list[self.settings.time_step][0]
         self.y_dot = self.settings.dot_start_y #self.vect_list[self.settings.time_step][1]
         self.color = self.settings.dot_color

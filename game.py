@@ -16,6 +16,7 @@ class Game:
              self.settings.screen_height)
         )
         self.objects()
+        self.dead_dots = []
         self.brain = Brain(self)
 
     def objects(self):
@@ -55,14 +56,14 @@ class Game:
                                  self.settings.wall_dict["width"][4],
                                  self.settings.wall_dict["height"][4]
                                  )
-        self.wall_group.add(self.obstacle_1)
+        #self.wall_group.add(self.obstacle_1)
         self.goal_group = pygame.sprite.GroupSingle()
         self.goal = Goal(self, self.settings.goal_pos_x, self.settings.goal_pos_y, self.settings.goal_radius * 2, self.settings.goal_radius * 2)
         self.goal_group.add(self.goal)
 
         self.dot_group = pygame.sprite.Group()
         for dot in range(self.settings.dot_amount):
-            new_dot = Dot(self)
+            new_dot = Dot(self,[])
             self.dot_group.add(new_dot)
 
     def run(self):
@@ -74,16 +75,27 @@ class Game:
             for dot in self.dot_group.sprites():
                 if dot.alive:
                     dot.update()
+            if self.settings.all_dead:
+                self.create_next_gen()
             self.settings.time_step += 1
-            # This doesn't work
-            if False:
-                if self.all_dots_dead():
-                    self.brain.run_brain()
-                    for dot in self.dot_group:
-                        del dot
-                    self.dot_group.empty()
-                    for dot in range(self.settings.dot_amount):
-                        self.dot_group.add(self.brain.champion)
+
+
+    def create_next_gen(self):
+        self.settings.gen += 1
+        champion_vect_list = self.brain.find_champ(self.dead_dots).vect_list
+        for dot in self.dot_group:
+            del dot
+        self.dot_group.empty()
+        for dot in range(self.settings.dot_amount):
+            mutated_list = self.brain.mutate(champion_vect_list)
+            next_gen_dot = Dot(self, mutated_list)
+            self.dot_group.add(next_gen_dot)
+
+            # reset
+        self.settings.time_step = 0
+        self.settings.all_dead = False
+
+        print(len(self.dot_group))
 
     def update_screen(self):
         self.screen.fill(self.settings.bg_color)
@@ -103,10 +115,13 @@ class Game:
         #print("fuck off")
         for dot in obs_collision_list:
             dot.alive = False
+            self.dead_dots.append(dot)
             #print("i died")
         for dot in goal_collision_list:
             dot.alive = False
             dot.reached_goal = True
+            self.dead_dots.append(dot)
+
         #print("i work")
 
     def check_alive(self):
@@ -114,14 +129,16 @@ class Game:
         if self.settings.time_step >= self.settings.list_length:
             for dot in self.dot_group:
                 dot.alive = False
+                self.dead_dots.append(dot)
+        self.all_dots_dead()
 
     def all_dots_dead(self):
         for dot in self.dot_group:
             if dot.alive == True:
-                all_dead = False
+                self.settings.all_dead = False
             else:
-                all_dead = True
-        return all_dead
+                self.settings.all_dead = True
+
 
     def check_events(self):
         for event in pygame.event.get():
