@@ -95,7 +95,7 @@ class Game:
         self.settings.time_step = 0
         self.settings.all_dead = False
 
-        print(len(self.dot_group))
+        # print(f"dot amount{len(self.dot_group))
 
     def update_screen(self):
         self.screen.fill(self.settings.bg_color)

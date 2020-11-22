@@ -14,19 +14,20 @@ class Brain:
             if max < dead_list[i].fitness:
                 max = dead_list[i].fitness
                 index = i
-        print(index)
+        print(f"champ choice{index}", end=", ")
         champ = dead_list[index]
         dead_list.clear()
         return champ
 
     def fitness_calc(self, dead_list):
+        print("fitness")
         for dot in dead_list:
             if dot.reached_goal == True:
                 fitness = 1/(dot.time_alive**2)
             else:
                 dist = self.dist_to_goal(dot)
                 fitness = 1/(dist**2) # obs: fitness udregnet fra timestep ikke sammenlignelig med fitness udregnet fra afstand til mål
-
+            #print(f"{fitness}", end=", ")
             dot.fitness = fitness
 
     def mutate(self, list):
@@ -36,8 +37,10 @@ class Brain:
         return list2
 
     def dist_to_goal(self, dot):
-        distance = int(math.sqrt((dot.x_dot - self.settings.goal_pos_x)**2
-                                + (dot.y_dot - self.settings.goal_pos_y)**2))
+        distance = math.sqrt((dot.x_dot - self.settings.goal_pos_x)**2
+                                + (dot.y_dot - self.settings.goal_pos_y)**2)
+        print(f"({dot.x_dot},{dot.y_dot}) goal: {distance}", end=", ")
+
         return distance
 
 
