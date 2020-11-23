@@ -76,4 +76,4 @@ class Settings:
         self.goal_radius = self.dot_radius * 2
 
         # Brain settings
-        self.mutate_factor = int(self.list_length * 0.10)
+        self.mutate_factor = int(self.list_length * 0.40)

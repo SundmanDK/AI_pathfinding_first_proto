@@ -94,12 +94,12 @@ class Game:
         #print("fuck off")
         for dot in obs_collision_list:
             dot.alive = False
-            self.dead_dots.append(dot)
+           #self.dead_dots.append(dot)  kaldes flere gange for samme dot
             #print("i died")
         for dot in goal_collision_list:
             dot.alive = False
             dot.reached_goal = True
-            self.dead_dots.append(dot)
+            #self.dead_dots.append(dot)
 
         #print("i work")
 
@@ -109,7 +109,7 @@ class Game:
             for dot in self.dot_group:
                 dot.alive = False
                 self.dead_dots.append(dot)
-        self.all_dots_dead()
+            self.all_dots_dead()
 
     def all_dots_dead(self):
         for dot in self.dot_group:
