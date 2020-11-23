@@ -23,13 +23,11 @@ class Brain:
        # print("fitness")
        # print("dead_list", len(dead_list))
         for dot in dead_list:
-            if False:
-                if dot.reached_goal == True:
-                    fitness = 100/(dot.time_alive**2)
-                else:
-                    1
-            dist = self.dist_to_goal(dot)
-            fitness = 1/(dist**2 + dot.time_alive**2) # obs: fitness udregnet fra timestep ikke sammenlignelig med fitness udregnet fra afstand til mål
+            if dot.reached_goal == True:
+                fitness = 1/(dot.time_alive**2)+100
+            else:
+                dist = self.dist_to_goal(dot)
+                fitness = 1/(dist**2) # obs: fitness udregnet fra timestep ikke sammenlignelig med fitness udregnet fra afstand til mål
           #  print(f"{fitness}", end=", ")
             dot.fitness = fitness
 
