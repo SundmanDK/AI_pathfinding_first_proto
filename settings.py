@@ -21,6 +21,7 @@ class Settings:
         self.dot_start_y = int(self.screen_height - 50)
         self.dot_radius = 5
         self.dot_color = WHITE
+        self.champ_color = BLUE
         self.list_length = 5000
         self.dot_amount = 100
         self.all_dead = False

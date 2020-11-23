@@ -4,7 +4,7 @@ import numpy as np
 from pygame.sprite import Sprite
 
 class Dot(Sprite):
-    def __init__(self, game, list):
+    def __init__(self, game, list, color):
         super().__init__()
         self.settings = game.settings
         self.screen = game.screen
@@ -13,7 +13,7 @@ class Dot(Sprite):
             self.rand_vect_list()
         self.x_dot = self.settings.dot_start_x #self.vect_list[self.settings.time_step][0]
         self.y_dot = self.settings.dot_start_y #self.vect_list[self.settings.time_step][1]
-        self.color = self.settings.dot_color
+        self.color = color
 
         # Hitbox
         self.rect = pygame.Rect(

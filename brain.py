@@ -5,7 +5,6 @@ class Brain:
 
     def __init__(self, game):
         self.settings = game.settings
-        self.fitness_list = []
 
     def find_champ(self, dead_list):
         self.fitness_calc(dead_list)
@@ -16,7 +15,7 @@ class Brain:
                 index = i
         print(f"champ choice{index}", end=", ")
         champ = dead_list[index]
-        dead_list.clear()
+        #dead_list.clear()
         return champ
 
     def fitness_calc(self, dead_list):

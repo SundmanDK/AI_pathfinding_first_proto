@@ -63,7 +63,7 @@ class Game:
 
         self.dot_group = pygame.sprite.Group()
         for dot in range(self.settings.dot_amount):
-            new_dot = Dot(self,[])
+            new_dot = Dot(self,[], self.settings.dot_color)
             self.dot_group.add(new_dot)
 
     def run(self):
@@ -86,12 +86,16 @@ class Game:
         for dot in self.dot_group:
             del dot
         self.dot_group.empty()
-        for dot in range(self.settings.dot_amount):
+        for dot in range(self.settings.dot_amount -1):
             mutated_list = self.brain.mutate(champion_vect_list)
-            next_gen_dot = Dot(self, mutated_list)
+            next_gen_dot = Dot(self, mutated_list, self.settings.dot_color)
             self.dot_group.add(next_gen_dot)
+        champion_dot = Dot(self, champion_vect_list, self.settings.champ_color)
+        self.dot_group.add(champion_dot)
 
-            # reset
+
+        # reset
+        self.dead_dots.clear()
         self.settings.time_step = 0
         self.settings.all_dead = False
 
