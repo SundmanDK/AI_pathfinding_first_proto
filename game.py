@@ -33,7 +33,9 @@ class Game:
 
         #self.wall_group.add(self.obstacle_1)
         self.goal_group = pygame.sprite.GroupSingle()
-        self.goal = Goal(self, self.settings.goal_pos_x, self.settings.goal_pos_y, self.settings.goal_radius * 2, self.settings.goal_radius * 2)
+        self.goal = Goal(self, 0,0, self.settings.goal_radius * 2, self.settings.goal_radius * 2)
+        self.goal.rect.centerx = self.settings.goal_pos_x
+        self.goal.rect.centery = self.settings.goal_pos_y
         self.goal_group.add(self.goal)
 
         self.dot_group = pygame.sprite.Group()

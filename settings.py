@@ -27,6 +27,7 @@ class Settings:
         self.all_dead = False
         self.gen = 1
         self.dot_speed = 5
+        self.mutate_steps = 3
         # Dot move list
         # Vector move
         self.moved_up_left = (-1, 1)
@@ -66,7 +67,7 @@ class Settings:
 
         self.wall_dict = {'x_coordinate': [self.top_left_x, self.top_left_x, self.top_right_x, self.bottom_left_x, 0],
                           'y_coordinate': [self.top_left_y, self.top_left_y, self.top_right_y, self.bottom_left_y, 300],
-                          'width': [self.wall_long, self.wall_short, self.wall_short, self.wall_long, 600],
+                          'width': [self.wall_long, self.wall_short, self.wall_short, self.wall_long, 450],
                           'height': [self.wall_short, self.wall_long, self.wall_long, self.wall_short, 15]
                           }
 

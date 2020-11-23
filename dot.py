@@ -36,7 +36,7 @@ class Dot(Sprite):
             self.settings.dot_radius
         )
     def rand_vect_list(self):
-        #start_pos = np.array([self.settings.dot_start_x, self.settings.dot_start_y])
+
         self.vect_list = []
 
         for i in range(int(self.settings.list_length/self.settings.dot_speed)):

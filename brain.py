@@ -23,18 +23,24 @@ class Brain:
        # print("fitness")
        # print("dead_list", len(dead_list))
         for dot in dead_list:
-            if dot.reached_goal == True:
-                fitness = 100/(dot.time_alive**2)
-            else:
-                dist = self.dist_to_goal(dot)
-                fitness = 1/(dist**2) # obs: fitness udregnet fra timestep ikke sammenlignelig med fitness udregnet fra afstand til mål
+            if False:
+                if dot.reached_goal == True:
+                    fitness = 100/(dot.time_alive**2)
+                else:
+                    1
+            dist = self.dist_to_goal(dot)
+            fitness = 1/(dist**2 + dot.time_alive**2) # obs: fitness udregnet fra timestep ikke sammenlignelig med fitness udregnet fra afstand til mål
           #  print(f"{fitness}", end=", ")
             dot.fitness = fitness
 
     def mutate(self, list):
         list2 = list.copy()
-        for _ in range(self.settings.mutate_factor):
-            list2[random.randint(0,len(list))-1] = random.choice(self.settings.move_list)
+        mutate_factor = random.randint(0, len(list)-1)
+        for _ in range(int(mutate_factor/self.settings.mutate_steps)):
+            a = random.choice(self.settings.move_list)
+            index = random.randint(0,len(list))-self.settings.mutate_steps
+            for i in range(self.settings.mutate_steps):
+                list2[index + i] = a #random.choice(self.settings.move_list)
         return list2
 
     def dist_to_goal(self, dot):
