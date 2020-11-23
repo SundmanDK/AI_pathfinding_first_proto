@@ -39,9 +39,10 @@ class Dot(Sprite):
         #start_pos = np.array([self.settings.dot_start_x, self.settings.dot_start_y])
         self.vect_list = []
 
-        for i in range(self.settings.list_length):
+        for i in range(int(self.settings.list_length/self.settings.dot_speed)):
             vect = self.settings.move_list[random.randint(0,7)] #np.array([random.randint(-1,1), random.randint(-1,1)])
-            self.vect_list.append(vect)
+            for j in range(self.settings.dot_speed):
+                self.vect_list.append(vect)
 
 
     def update(self):

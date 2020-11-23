@@ -26,6 +26,7 @@ class Settings:
         self.dot_amount = 100
         self.all_dead = False
         self.gen = 1
+        self.dot_speed = 5
         # Dot move list
         # Vector move
         self.moved_up_left = (-1, 1)
