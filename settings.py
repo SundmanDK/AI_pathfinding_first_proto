@@ -67,7 +67,6 @@ class Settings:
                           'y_coordinate': [self.top_left_y, self.top_left_y, self.top_right_y, self.bottom_left_y, 300],
                           'width': [self.wall_long, self.wall_short, self.wall_short, self.wall_long, 600],
                           'height': [self.wall_short, self.wall_long, self.wall_long, self.wall_short, 15]
-
                           }
 
         # Goal settings

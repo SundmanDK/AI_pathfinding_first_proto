@@ -22,40 +22,15 @@ class Game:
     def objects(self):
         # outer bounds
         self.wall_group = pygame.sprite.Group()
-        self.top_wall = Obstacle(self,
-                                 self.settings.wall_dict["x_coordinate"][0],
-                                 self.settings.wall_dict["y_coordinate"][0],
-                                 self.settings.wall_dict["width"][0],
-                                 self.settings.wall_dict["height"][0]
-                                 )
-        self.wall_group.add(self.top_wall)
-        self.left_wall = Obstacle(self,
-                                 self.settings.wall_dict["x_coordinate"][1],
-                                 self.settings.wall_dict["y_coordinate"][1],
-                                 self.settings.wall_dict["width"][1],
-                                 self.settings.wall_dict["height"][1]
-                                 )
-        self.wall_group.add(self.left_wall)
-        self.right_wall = Obstacle(self,
-                                 self.settings.wall_dict["x_coordinate"][2],
-                                 self.settings.wall_dict["y_coordinate"][2],
-                                 self.settings.wall_dict["width"][2],
-                                 self.settings.wall_dict["height"][2]
-                                 )
-        self.wall_group.add(self.right_wall)
-        self.bottom_wall = Obstacle(self,
-                                 self.settings.wall_dict["x_coordinate"][3],
-                                 self.settings.wall_dict["y_coordinate"][3],
-                                 self.settings.wall_dict["width"][3],
-                                 self.settings.wall_dict["height"][3]
-                                 )
-        self.wall_group.add(self.bottom_wall)
-        self.obstacle_1 = Obstacle(self,
-                                 self.settings.wall_dict["x_coordinate"][4],
-                                 self.settings.wall_dict["y_coordinate"][4],
-                                 self.settings.wall_dict["width"][4],
-                                 self.settings.wall_dict["height"][4]
-                                 )
+        for i in range(len(self.settings.wall_dict['x_coordinate'])):
+            new_obstacle_or_wall = Obstacle(self,
+                                    self.settings.wall_dict["x_coordinate"][i],
+                                    self.settings.wall_dict["y_coordinate"][i],
+                                    self.settings.wall_dict["width"][i],
+                                    self.settings.wall_dict["height"][i]
+                                    )
+            self.wall_group.add(new_obstacle_or_wall)
+
         #self.wall_group.add(self.obstacle_1)
         self.goal_group = pygame.sprite.GroupSingle()
         self.goal = Goal(self, self.settings.goal_pos_x, self.settings.goal_pos_y, self.settings.goal_radius * 2, self.settings.goal_radius * 2)
