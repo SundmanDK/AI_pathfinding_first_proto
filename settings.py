@@ -64,11 +64,21 @@ class Settings:
         # Bottom left
         self.bottom_left_x = 0
         self.bottom_left_y = self.screen_height - self.wall_short
+        # Obstacle 1
+        self.x_1 = 0
+        self.y_1 = 400
+        self.w_1 = 430
+        self.h_1 = self.wall_short
+        # Obstacle 2
+        self.x_2 = 800 - 430
+        self.y_2 = 200
+        self.w_2 = 430
+        self.h_2 = self.wall_short
 
-        self.wall_dict = {'x_coordinate': [self.top_left_x, self.top_left_x, self.top_right_x, self.bottom_left_x, 0],
-                          'y_coordinate': [self.top_left_y, self.top_left_y, self.top_right_y, self.bottom_left_y, 300],
-                          'width': [self.wall_long, self.wall_short, self.wall_short, self.wall_long, 450],
-                          'height': [self.wall_short, self.wall_long, self.wall_long, self.wall_short, 15]
+        self.wall_dict = {'x_coordinate': [self.top_left_x, self.top_left_x, self.top_right_x, self.bottom_left_x, self.x_1, self.x_2],
+                          'y_coordinate': [self.top_left_y, self.top_left_y, self.top_right_y, self.bottom_left_y, self.y_1, self.y_2],
+                          'width': [self.wall_long, self.wall_short, self.wall_short, self.wall_long, self.w_1, self.w_2],
+                          'height': [self.wall_short, self.wall_long, self.wall_long, self.wall_short, self.h_1, self.h_2]
                           }
 
         # Goal settings
