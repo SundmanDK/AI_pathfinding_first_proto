@@ -1,7 +1,9 @@
 
 
 class Settings:
+    """Global value Storage."""
     def __init__(self):
+        """Initial values."""
         BLUE = (0, 0, 255)
         GREEN = (0, 255, 0)
         RED = (255, 0, 0)
@@ -14,7 +16,6 @@ class Settings:
         self.time_step = 0
         self.running = True
         self.FPS = 300
-
 
         # Dot settings
         self.dot_start_x = int(self.screen_width/2)

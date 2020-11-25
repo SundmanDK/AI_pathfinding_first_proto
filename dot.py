@@ -4,12 +4,15 @@ import numpy as np
 from pygame.sprite import Sprite
 
 class Dot(Sprite):
+    """The agents(?) who try different rutes to find the most optimal."""
     def __init__(self, game, list, color):
+        """Sets initial values for the dots."""
         super().__init__()
         self.settings = game.settings
         self.screen = game.screen
         self.vect_list = list
         if self.settings.gen == 1:
+            # if this is the first generation then make a random rute for the dot.
             self.rand_vect_list()
         self.x_dot = self.settings.dot_start_x #self.vect_list[self.settings.time_step][0]
         self.y_dot = self.settings.dot_start_y #self.vect_list[self.settings.time_step][1]
@@ -29,6 +32,7 @@ class Dot(Sprite):
 
     # Draw the dot
     def draw_dot(self):
+        """Draws the dot."""
         pygame.draw.circle(
             self.screen,
             self.color,
@@ -36,7 +40,7 @@ class Dot(Sprite):
             self.settings.dot_radius
         )
     def rand_vect_list(self):
-
+        """Creates a random rute for the dot."""
         self.vect_list = []
 
         for i in range(int(self.settings.list_length/self.settings.dot_speed)):
@@ -46,6 +50,7 @@ class Dot(Sprite):
 
 
     def update(self):
+        """Moves the dot along its rute."""
         if self.alive:
             self.x_dot += self.vect_list[self.settings.time_step][0]
             self.y_dot += self.vect_list[self.settings.time_step][1]
