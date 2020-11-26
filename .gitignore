@@ -2,3 +2,4 @@
 # alle filer og foldere git skal ignorere
 
 __pycache__
+.idea
