@@ -98,7 +98,6 @@ class Game:
         for dot in self.dot_group.sprites():
             dot.draw_dot()
 
-
         # Flip screen
         pygame.display.flip()
         self.clock.tick(self.settings.FPS)
