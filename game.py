@@ -59,25 +59,27 @@ class Game:
             self.check_events()
             self.check_alive()
             self.update_screen()
-            for dot in self.dot_group.sprites():
-                if dot.alive:
-                    dot.update()
+            if self.settings.allow_update:  # If you press space then the dots stop updating.
+                for dot in self.dot_group.sprites():
+                    if dot.alive:
+                        dot.update()
+                self.settings.time_step += 1
+
             if self.settings.all_dead:
                 self.create_next_gen()
-            self.settings.time_step += 1
 
     def create_next_gen(self):
         """Deletes the old generation(?) and creates a new one. """
         self.settings.gen += 1
-        champion_vect_list = self.brain.find_champ(self.dead_dots).vect_list
+        self.champion_vect_list = self.brain.find_champ(self.dead_dots).vect_list
         for dot in self.dot_group:
             del dot
         self.dot_group.empty()
         for dot in range(self.settings.dot_amount -1):
-            mutated_list = self.brain.mutate(champion_vect_list)
+            mutated_list = self.brain.mutate(self.champion_vect_list)
             next_gen_dot = Dot(self, mutated_list, self.settings.dot_color)
             self.dot_group.add(next_gen_dot)
-        champion_dot = Dot(self, champion_vect_list, self.settings.champ_color)
+        champion_dot = Dot(self, self.champion_vect_list, self.settings.champ_color)
         self.dot_group.add(champion_dot)
 
         # reset
@@ -88,6 +90,8 @@ class Game:
     def update_screen(self):
         """Graphical updates."""
         self.screen.fill(self.settings.bg_color)
+        if self.settings.gen > 1:
+            self.draw_champion_path(self.champion_vect_list)
         for wall in self.wall_group.sprites():
             wall.draw_obstacle()
         self.goal.draw_obstacle()
@@ -97,6 +101,15 @@ class Game:
         # Flip screen
         pygame.display.flip()
         self.clock.tick(self.settings.FPS)
+
+    def draw_champion_path(self, champ_list):
+        """draws a line along the champions path."""
+        for i in range(len(champ_list)-1):
+            pygame.draw.line(self.screen,
+                             self.settings.champ_color,
+                             (champ_list[i][0],champ_list[i][1]),
+                             (champ_list[i+1][0],champ_list[i+1][1]),
+                             )
 
     def check_collision(self):
         """Checks for collision between the dots and the walls and boundaries, and the goal."""
@@ -132,12 +145,12 @@ class Game:
             else:
                 self.settings.all_dead = True
 
-
     def check_events(self):
         """Checks user input."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
-
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.settings.allow_update = not(self.settings.allow_update)

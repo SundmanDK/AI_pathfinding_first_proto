@@ -4,7 +4,7 @@ import numpy as np
 from pygame.sprite import Sprite
 
 class Dot(Sprite):
-    """The agents(?) who try different rutes to find the most optimal."""
+    """The dot who try different rutes to find the most optimal."""
     def __init__(self, game, list, color):
         """Sets initial values for the dots."""
         super().__init__()

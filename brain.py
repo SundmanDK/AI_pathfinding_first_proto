@@ -47,7 +47,7 @@ class Brain:
         """Calculates the distance between a dot and the goal."""
         distance = math.sqrt((dot.x_dot - self.settings.goal_pos_x)**2
                                 + (dot.y_dot - self.settings.goal_pos_y)**2)
-        print(f"({dot.x_dot},{dot.y_dot}) goal: {distance}", end="\n")
+        #print(f"({dot.x_dot},{dot.y_dot}) goal: {distance}", end="\n")
 
         return distance
 

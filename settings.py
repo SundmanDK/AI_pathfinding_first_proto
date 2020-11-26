@@ -16,6 +16,7 @@ class Settings:
         self.time_step = 0
         self.running = True
         self.FPS = 300
+        self.allow_update = True
 
         # Dot settings
         self.dot_start_x = int(self.screen_width/2)
