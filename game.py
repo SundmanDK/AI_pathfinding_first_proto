@@ -116,11 +116,19 @@ class Game:
 
     def draw_champion_path(self, champ_list):
         """draws a line along the champions path."""
+
+        startpos_x = self.settings.dot_start_x
+        startpos_y = self.settings.dot_start_y
+
         for i in range(len(champ_list)-1):
+            startpos_x += champ_list[i][0]
+            startpos_y += champ_list[i][1]
+            endpos_x = startpos_x + champ_list[i+1][0]
+            endpos_y = startpos_y + champ_list[i+1][1]
             pygame.draw.line(self.screen,
                              self.settings.champ_color,
-                             (champ_list[i][0], champ_list[i][1]),
-                             (champ_list[i+1][0], champ_list[i+1][1]),
+                             (startpos_x, startpos_y),
+                             (endpos_x, endpos_y),
                              )
 
     def check_collision(self):
