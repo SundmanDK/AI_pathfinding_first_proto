@@ -1,6 +1,5 @@
 import pygame
 import sys
-import numpy as np
 from settings import Settings
 from dot import Dot
 from obstacles import Obstacle
@@ -20,6 +19,15 @@ class Game:
         self.objects()
         self.dead_dots = []
         self.brain = Brain(self)
+        self.gen_counter()
+
+    def gen_counter(self):
+        """draw the gen counter on screen"""
+        self.font = pygame.font.Font(None, 32)
+        self.text = self.font.render(f'Generation: {self.settings.gen}', True, self.settings.WHITE, self.settings.BLACK)
+        self.textRect = self.text.get_rect()
+        self.textRect.left = 10
+        self.textRect.top = 10
 
     def objects(self):
         """Creates the initial objects of the program."""
@@ -72,6 +80,7 @@ class Game:
     def create_next_gen(self):
         """Deletes the old generation(?) and creates a new one. """
         self.settings.gen += 1
+        self.gen_counter()
         self.champion_vect_list = self.brain.find_champ(self.dead_dots).vect_list
         for dot in self.dot_group:
             del dot
@@ -96,8 +105,10 @@ class Game:
         for wall in self.wall_group.sprites():
             wall.draw_obstacle()
         self.goal.draw_obstacle()
+        self.screen.blit(self.text, self.textRect)
         for dot in self.dot_group.sprites():
             dot.draw_dot()
+
 
         # Flip screen
         pygame.display.flip()
@@ -105,6 +116,7 @@ class Game:
 
     def draw_champion_path(self, champ_list):
         """draws a line along the champions path."""
+
         startpos_x = self.settings.dot_start_x
         startpos_y = self.settings.dot_start_y
 
