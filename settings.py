@@ -7,12 +7,12 @@ class Settings:
         BLUE = (0, 0, 255)
         GREEN = (0, 255, 0)
         RED = (255, 0, 0)
-        BLACK = (0, 0, 0)
-        WHITE = (255, 255, 255)
+        self.BLACK = (0, 0, 0)
+        self.WHITE = (255, 255, 255)
         # Game settings
         self.screen_height = 600
         self.screen_width = 800
-        self.bg_color = BLACK
+        self.bg_color = self.BLACK
         self.time_step = 0
         self.running = True
         self.FPS = 300
@@ -22,7 +22,7 @@ class Settings:
         self.dot_start_x = int(self.screen_width/2)
         self.dot_start_y = int(self.screen_height - 50)
         self.dot_radius = 5
-        self.dot_color = WHITE
+        self.dot_color = self.WHITE
         self.champ_color = BLUE
         self.list_length = 7000
         self.dot_amount = 100
