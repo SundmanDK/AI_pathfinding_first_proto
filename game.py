@@ -16,10 +16,58 @@ class Game:
             (self.settings.screen_width,
              self.settings.screen_height)
         )
+        pygame.display.set_caption("AI Pathfinding")
         self.objects()
         self.dead_dots = []
         self.brain = Brain(self)
         self.gen_counter()
+        self.create_background([])
+        self.rute_image = pygame.image.load("rute_image.bmp")
+
+    def run(self):
+        """Main loop of the program."""
+        while self.settings.running:
+            self.check_events()
+            self.check_alive()
+            self.update_screen()
+            if self.settings.allow_update:  # If you press space then the dots stop updating.
+                for dot in self.dot_group.sprites():
+                    if dot.alive:
+                        dot.update()
+                self.settings.time_step += 1
+
+            if self.settings.all_dead:
+                self.create_next_gen()
+
+            if self.settings.gather_data == False:
+                self.clock.tick(self.settings.FPS)
+
+    def check_events(self):
+        """Checks user input."""
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.settings.allow_update = not(self.settings.allow_update)
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+
+    def update_screen(self):
+        """Graphical updates."""
+        self.screen.blit(self.rute_image, self.screen.get_rect())
+
+        for wall in self.wall_group.sprites():
+            wall.draw_obstacle()
+        self.goal.draw_obstacle()
+        self.screen.blit(self.text, self.textRect)
+        for dot in self.dot_group.sprites():
+            dot.draw_dot()
+
+        # Flip screen
+        pygame.display.flip()
 
     def gen_counter(self):
         """draw the gen counter on screen"""
@@ -28,6 +76,26 @@ class Game:
         self.textRect = self.text.get_rect()
         self.textRect.left = 10
         self.textRect.top = 10
+
+    def create_background(self, champ_list):
+        """draws a line along the champions path."""
+        pygame.display.flip()
+        self.screen.fill(self.settings.bg_color)
+        startpos_x = self.settings.dot_start_x
+        startpos_y = self.settings.dot_start_y
+
+        for i in range(len(champ_list)-1):
+            startpos_x += champ_list[i][0]
+            startpos_y += champ_list[i][1]
+            endpos_x = startpos_x + champ_list[i+1][0]
+            endpos_y = startpos_y + champ_list[i+1][1]
+            pygame.draw.line(self.screen,
+                             self.settings.GREEN,
+                             (startpos_x, startpos_y),
+                             (endpos_x, endpos_y),
+                             )
+
+        pygame.image.save(self.screen, "rute_image.bmp")
 
     def objects(self):
         """Creates the initial objects of the program."""
@@ -56,80 +124,17 @@ class Game:
         self.goal.rect.centery = self.settings.goal_pos_y
         self.goal_group.add(self.goal)
 
+        self.create_first_gen_dots()
+
+    def create_first_gen_dots(self):
         # Dots
         self.dot_group = pygame.sprite.Group()
+
+        ID = 0
         for dot in range(self.settings.dot_amount):
-            new_dot = Dot(self,[], self.settings.dot_color)
+            new_dot = Dot(self,[], self.settings.dot_color, ID)
             self.dot_group.add(new_dot)
-
-    def run(self):
-        """Main loop of the program."""
-        while self.settings.running:
-            self.check_events()
-            self.check_alive()
-            self.update_screen()
-            if self.settings.allow_update:  # If you press space then the dots stop updating.
-                for dot in self.dot_group.sprites():
-                    if dot.alive:
-                        dot.update()
-                self.settings.time_step += 1
-
-            if self.settings.all_dead:
-                self.create_next_gen()
-
-    def create_next_gen(self):
-        """Deletes the old generation(?) and creates a new one. """
-        self.settings.gen += 1
-        self.gen_counter()
-        self.champion_vect_list = self.brain.find_champ(self.dead_dots).vect_list
-        for dot in self.dot_group:
-            del dot
-        self.dot_group.empty()
-        for dot in range(self.settings.dot_amount -1):
-            mutated_list = self.brain.mutate(self.champion_vect_list)
-            next_gen_dot = Dot(self, mutated_list, self.settings.dot_color)
-            self.dot_group.add(next_gen_dot)
-        champion_dot = Dot(self, self.champion_vect_list, self.settings.champ_color)
-        self.dot_group.add(champion_dot)
-
-        # reset
-        self.dead_dots.clear()
-        self.settings.time_step = 0
-        self.settings.all_dead = False
-
-    def update_screen(self):
-        """Graphical updates."""
-        self.screen.fill(self.settings.bg_color)
-        if self.settings.gen > 1:
-            self.draw_champion_path(self.champion_vect_list)
-        for wall in self.wall_group.sprites():
-            wall.draw_obstacle()
-        self.goal.draw_obstacle()
-        self.screen.blit(self.text, self.textRect)
-        for dot in self.dot_group.sprites():
-            dot.draw_dot()
-
-
-        # Flip screen
-        pygame.display.flip()
-        self.clock.tick(self.settings.FPS)
-
-    def draw_champion_path(self, champ_list):
-        """draws a line along the champions path."""
-
-        startpos_x = self.settings.dot_start_x
-        startpos_y = self.settings.dot_start_y
-
-        for i in range(len(champ_list)-1):
-            startpos_x += champ_list[i][0]
-            startpos_y += champ_list[i][1]
-            endpos_x = startpos_x + champ_list[i+1][0]
-            endpos_y = startpos_y + champ_list[i+1][1]
-            pygame.draw.line(self.screen,
-                             self.settings.champ_color,
-                             (startpos_x, startpos_y),
-                             (endpos_x, endpos_y),
-                             )
+            ID += 1
 
     def check_collision(self):
         """Checks for collision between the dots and the walls and boundaries, and the goal."""
@@ -152,25 +157,74 @@ class Game:
             for dot in self.dot_group:
                 dot.alive = False
                 self.dead_dots.append(dot)
-            self.all_dots_dead()
 
-    def all_dots_dead(self):
-        """
-        Manages the boolean value for running the create_next_gen() function,
-        i.e. telling the program when to let the Ai work on the result of the generation.
-        """
-        for dot in self.dot_group:
-            if dot.alive == True:
-                self.settings.all_dead = False
-            else:
                 self.settings.all_dead = True
 
-    def check_events(self):
-        """Checks user input."""
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+    def create_next_gen(self):
+        """Deletes the old generation(?) and creates a new one. """
+        champion = self.brain.find_champ(self.dead_dots)
+        self.champion_vect_list = self.brain.remove_loops(champion.vect_list, champion.pos_list)
+
+        if self.settings.gather_data:
+            self.auto_gather_data(champion)
+
+        # Kills previous generation
+        for dot in self.dot_group:
+            del dot
+        self.dot_group.empty()
+
+        # Make the next generation
+        self.settings.gen += 1
+        self.gen_counter()
+        ID = 0
+        for dot in range(self.settings.dot_amount -1):
+            mutated_list = self.brain.mutate(self.champion_vect_list)
+            next_gen_dot = Dot(self, mutated_list, self.settings.dot_color, ID)
+            self.dot_group.add(next_gen_dot)
+            ID += 1
+        champion_dot = Dot(self, self.champion_vect_list, self.settings.champ_color, ID)
+        self.dot_group.add(champion_dot)
+
+        # Draws the champion rute
+        self.create_background(self.champion_vect_list)
+        self.rute_image = pygame.image.load("rute_image.bmp")
+
+        # reset
+        self.dead_dots.clear()
+        self.settings.time_step = 0
+        self.settings.all_dead = False
+
+    def auto_gather_data(self, champion):
+        # Data
+        self.brain.write_to_DataFrame(champion.fitness,
+                                      champion.time_alive,
+                                      self.settings.gen,
+                                      champion.ID,
+                                      champion.reached_goal,
+                                      self.settings.run_counter)
+
+        if self.settings.gen == self.settings.max_gen:
+            self.settings.gen = 1
+            self.settings.run_counter += 1
+            if self.settings.run_counter == self.settings.runs:
+                # Write finished DataFrame to CSV
+                self.brain.final_data.to_csv('Final_data.csv')
+                print(f"run nr. {self.settings.run_counter} over")
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    self.settings.allow_update = not(self.settings.allow_update)
+            else:
+                # reset to new run
+                self.dead_dots.clear()
+                self.settings.time_step = 0
+                self.settings.all_dead = False
+                self.create_first_gen_dots()
+                self.gen_counter()
+                print(f"run nr. {self.settings.run_counter} over")
+                return None
+
+
+if __name__ == '__main__':
+    game = Game()
+    game.run()
+    pygame.quit()
+    sys.exit()

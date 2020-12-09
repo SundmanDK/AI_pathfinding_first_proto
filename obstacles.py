@@ -1,5 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
+
+
 class Obstacle(Sprite):
     """
     Objects used to block the way for the dot or be the goal.

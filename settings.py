@@ -1,11 +1,9 @@
-import numpy as np
-
 class Settings:
     """Global value Storage."""
     def __init__(self):
         """Initial values."""
         BLUE = (0, 0, 255)
-        GREEN = (0, 255, 0)
+        self.GREEN = (0, 255, 0)
         RED = (255, 0, 0)
         self.BLACK = (0, 0, 0)
         self.WHITE = (255, 255, 255)
@@ -17,6 +15,9 @@ class Settings:
         self.running = True
         self.FPS = 300
         self.allow_update = True
+        self.runs = 3
+        self.run_counter = 0
+        self.gather_data = True
 
         # Dot settings
         self.dot_start_x = int(self.screen_width/2)
@@ -28,66 +29,53 @@ class Settings:
         self.dot_amount = 100
         self.all_dead = False
         self.gen = 1
+        self.max_gen = 300
         self.dot_speed = 5
         self.mutate_steps = 3
         # Dot move list
-        # Vector move
-        self.moved_up_left = (-1, 1)
-        self.moved_up = (0, 1)
-        self.moved_up_right = (1, 1)
-        self.moved_left = (-1, 0)
-        self.moved_right = (1, 0)
-        self.moved_down_left = (-1, -1)
-        self.moved_down = (0, -1)
-        self.moved_down_right = (1, -1)
-        # Move list
         self.move_list = [
-            self.moved_up_left,
-            self.moved_up,
-            self.moved_up_right,
-            self.moved_left,
-            self.moved_right,
-            self.moved_down_left,
-            self.moved_down,
-            self.moved_down_right]
-
+            (-1, 1),
+            (0, 1),
+            (1, 1),
+            (-1, 0),
+            (1, 0),
+            (-1, -1),
+            (0, -1),
+            (1, -1)]
         # Obstacle settings
         self.obstacle_color = RED
-
         # wall settings
-        self.wall_short = 10
-        self.wall_long = self.screen_width
+        wall_short = 10
+        wall_long = self.screen_width
         # Top left
-        self.top_left_x = 0
-        self.top_left_y = 0
+        top_left_x = 0
+        top_left_y = 0
         # Top right
-        self.top_right_x = self.screen_width - self.wall_short
-        self.top_right_y = 0
+        top_right_x = self.screen_width - wall_short
+        top_right_y = 0
         # Bottom left
-        self.bottom_left_x = 0
-        self.bottom_left_y = self.screen_height - self.wall_short
+        bottom_left_x = 0
+        bottom_left_y = self.screen_height - wall_short
         # Obstacle 1
-        self.x_1 = 0
-        self.y_1 = 400
-        self.w_1 = 430
-        self.h_1 = self.wall_short
+        x_1 = 0
+        y_1 = 400
+        w_1 = 430
+        h_1 = wall_short
         # Obstacle 2
-        self.x_2 = 800 - 430
-        self.y_2 = 200
-        self.w_2 = 430
-        self.h_2 = self.wall_short
+        x_2 = 800 - 430
+        y_2 = 200
+        w_2 = 430
+        h_2 = wall_short
 
-        self.wall_dict = {'x_coordinate': [self.top_left_x, self.top_left_x, self.top_right_x, self.bottom_left_x, self.x_1, self.x_2],
-                          'y_coordinate': [self.top_left_y, self.top_left_y, self.top_right_y, self.bottom_left_y, self.y_1, self.y_2],
-                          'width': [self.wall_long, self.wall_short, self.wall_short, self.wall_long, self.w_1, self.w_2],
-                          'height': [self.wall_short, self.wall_long, self.wall_long, self.wall_short, self.h_1, self.h_2]
+        self.wall_dict = {'x_coordinate': [top_left_x, top_left_x, top_right_x, bottom_left_x, x_1, x_2],
+                          'y_coordinate': [top_left_y, top_left_y, top_right_y, bottom_left_y, y_1, y_2],
+                          'width': [wall_long, wall_short, wall_short, wall_long, w_1, w_2],
+                          'height': [wall_short, wall_long, wall_long, wall_short, h_1, h_2]
                           }
 
         # Goal settings
-        self.goal_color = GREEN
+        self.goal_color = self.GREEN
         self.goal_pos_x = int(self.screen_width / 2)
         self.goal_pos_y = 30
         self.goal_radius = self.dot_radius * 2
 
-        # Brain settings
-        self.mutate_factor = int(self.list_length * 0.40)
