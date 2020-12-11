@@ -3,9 +3,7 @@ import random
 import pandas
 
 class Brain:
-    """
-    The Ai of the program.
-    """
+    """The Ai of the program."""
     def __init__(self, game):
         """Makes a link to the settings."""
         self.settings = game.settings
@@ -48,6 +46,7 @@ class Brain:
             dot.fitness = fitness
 
     def remove_loops(self, vect_list, pos_list):
+        """"""
         pos_list_copy = pos_list.copy()
         pos_list_copy.reverse()
         removed = False
