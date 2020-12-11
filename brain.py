@@ -38,7 +38,7 @@ class Brain:
     def fitness_calc(self, dead_list):
         """Calculates the fitness for each dot."""
         for dot in dead_list:
-            if dot.reached_goal == True:
+            if dot.reached_goal:
                 fitness = self.reached_goal_value/(dot.time_alive) + 1  # Bonus points for reaching goal
             else:
                 dist = self.dist_to_goal(dot.x_dot, dot.y_dot)

@@ -39,7 +39,7 @@ class Game:
             if self.settings.all_dead:
                 self.create_next_gen()
 
-            if self.settings.gather_data == False:
+            if not self.settings.gather_data:
                 self.clock.tick(self.settings.FPS)
 
     def check_events(self):
@@ -157,8 +157,7 @@ class Game:
             for dot in self.dot_group:
                 dot.alive = False
                 self.dead_dots.append(dot)
-
-                self.settings.all_dead = True
+            self.settings.all_dead = True
 
     def create_next_gen(self):
         """Deletes the old generation(?) and creates a new one. """
@@ -220,7 +219,6 @@ class Game:
                 self.create_first_gen_dots()
                 self.gen_counter()
                 print(f"run nr. {self.settings.run_counter} over")
-                return None
 
 
 if __name__ == '__main__':

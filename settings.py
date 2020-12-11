@@ -13,11 +13,11 @@ class Settings:
         self.bg_color = self.BLACK
         self.time_step = 0
         self.running = True
-        self.FPS = 300
+        self.FPS = 600
         self.allow_update = True
         self.runs = 3
         self.run_counter = 0
-        self.gather_data = True
+        self.gather_data = False
 
         # Dot settings
         self.dot_start_x = int(self.screen_width/2)
