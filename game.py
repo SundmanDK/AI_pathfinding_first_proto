@@ -1,3 +1,15 @@
+"""
+Program Developed by:
+Martin Sundman (Sundman@ruc.dk, 70464)
+Mathias Marquar Arhipenko Larsen (mamaar@ruc.com, 70434)
+Oliver Skjellerup Demuth Heinecke (osdh@ruc.dk, 71604)
+Rasmus Beyer Andersen (rbeyera@ruc.dk, 71466)
+Zaïna Miranda Brunse Parly (zmbp@ruc.dk, 70455)
+
+Advisor:
+Maja H. Kirkeby (majaht@ruc.dk)
+"""
+
 import pygame
 import sys
 from settings import Settings

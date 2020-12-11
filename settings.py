@@ -1,12 +1,14 @@
 class Settings:
     """Global value Storage."""
     def __init__(self):
-        """Initial values."""
+        """Initial globally encompassing values."""
+        # Colors
         BLUE = (0, 0, 255)
         self.GREEN = (0, 255, 0)
         RED = (255, 0, 0)
         self.BLACK = (0, 0, 0)
         self.WHITE = (255, 255, 255)
+
         # Game settings
         self.screen_height = 600
         self.screen_width = 800
@@ -15,9 +17,12 @@ class Settings:
         self.running = True
         self.FPS = 600
         self.allow_update = True
-        self.runs = 3
-        self.run_counter = 0
-        self.gather_data = False
+
+        # Data collection
+        self.max_gen = 300  # Number of generations in each run.
+        self.runs = 3  # How many runs of a given amount of generations you want.
+        self.run_counter = 0  # Keep track of which run is currently in progress
+        self.gather_data = False  # Change to True if you want to get a CSV with data on the champions of each generation.
 
         # Dot settings
         self.dot_start_x = int(self.screen_width/2)
@@ -25,15 +30,14 @@ class Settings:
         self.dot_radius = 5
         self.dot_color = self.WHITE
         self.champ_color = BLUE
-        self.list_length = 7000
-        self.dot_amount = 100
+        self.list_length = 7000  # Length of the vector list for the dots' route.
+        self.dot_amount = 100  # Number of dots in each generation.
         self.all_dead = False
         self.gen = 1
-        self.max_gen = 300
         self.dot_speed = 5
         self.mutate_steps = 3
         # Dot move list
-        self.move_list = [
+        self.move_list = [  # List of legal moves.
             (-1, 1),
             (0, 1),
             (1, 1),
@@ -67,6 +71,7 @@ class Settings:
         w_2 = 430
         h_2 = wall_short
 
+        # Dictionary containing info on each wall and boundary.
         self.wall_dict = {'x_coordinate': [top_left_x, top_left_x, top_right_x, bottom_left_x, x_1, x_2],
                           'y_coordinate': [top_left_y, top_left_y, top_right_y, bottom_left_y, y_1, y_2],
                           'width': [wall_long, wall_short, wall_short, wall_long, w_1, w_2],
