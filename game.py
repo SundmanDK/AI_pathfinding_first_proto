@@ -219,7 +219,7 @@ class Game:
         """
         Makes the program automatically work through a given number of generations a given number of times to gather
         data for analysis.
-        If we Say 50 generations and 3 runs the program we perform this and gather information on the Champion of each
+        If we Say 50 generations and 3 runs the program will perform this and gather information on the Champion of each
         Generation.
         """
 
