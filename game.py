@@ -94,8 +94,8 @@ class Game:
     def create_background(self, champ_list):
         """
         Creates the background for the game.
-        It is necessary to make the background an image because we draw a line representing the champions path.
-        This is an optimization to make the program run faster.
+        It is necessary to make the background an image because we want to show a line behind the dots representing the
+        champions path. Making it in to a picture and blit'ing it on to the screen makes the program run much faster.
         """
         pygame.display.flip()
         self.screen.fill(self.settings.bg_color)
