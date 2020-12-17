@@ -39,7 +39,7 @@ class Brain:
                 fitness = self.reached_goal_value/(dot.time_alive) + 1  # Bonus points for reaching goal
             else:
                 dist = self.dist_to_goal(dot.x_dot, dot.y_dot)
-                fitness = self.settings.goal_radius/(dist)
+                fitness = (self.settings.dot_radius + self.settings.goal_radius)/(dist)
                 # goal_radius = 2 * dot_radius limit of distance is 10 (max fitness = 1) never reached because when ditance
                 # equals 10 the goal has been reached and fitness is calculated differently.
             dot.fitness = fitness
